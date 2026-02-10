@@ -11,6 +11,11 @@ public final class GameStats {
     private final ConcurrentHashMap<Snake, Long> deaths = new ConcurrentHashMap<>();
 
     public long registerDeath(Snake snake) {
+        Long existingOrder = deaths.get(snake);
+        if (existingOrder != null) {
+            return existingOrder;
+        }
+
         long order = deathCounter.incrementAndGet();
         deaths.putIfAbsent(snake, order);
         return order;

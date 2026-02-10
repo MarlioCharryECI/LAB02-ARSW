@@ -1,12 +1,12 @@
-# Snake Race — ARSW Lab #2 (Java 21, Virtual Threads)
+# 🐍 Snake Race — ARSW Lab #2 (Java 21, Virtual Threads)
 
-**Escuela Colombiana de Ingeniería – Arquitecturas de Software**  
-Laboratorio de programación concurrente: condiciones de carrera, sincronización y colecciones seguras.
+> **Escuela Colombiana de Ingeniería – Arquitecturas de Software**  
+> Laboratorio de programación concurrente: condiciones de carrera, sincronización y colecciones seguras.
 
-Marlio Jose Charry Espitia
+**Marlio Jose Charry Espitia**
 ---
 
-## Requisitos
+## 🚀 Requisitos
 
 - **JDK 21** (Temurin recomendado)
 - **Maven 3.9+**
@@ -14,7 +14,7 @@ Marlio Jose Charry Espitia
 
 ---
 
-## Cómo ejecutar
+## 🎮 Cómo ejecutar
 
 ```bash
 mvn clean verify
@@ -29,7 +29,7 @@ mvn -q -DskipTests exec:java -Dsnakes=4
 
 ---
 
-## Reglas del juego (resumen)
+## 📋 Reglas del juego (resumen)
 
 - **N serpientes** corren de forma autónoma (cada una en su propio hilo).
 - **Ratones**: al comer uno, la serpiente **crece** y aparece un **nuevo obstáculo**.
@@ -40,7 +40,7 @@ mvn -q -DskipTests exec:java -Dsnakes=4
 
 ---
 
-## Arquitectura (carpetas)
+## 🏗️ Arquitectura (carpetas)
 
 ```
 co.eci.snake
@@ -53,9 +53,9 @@ co.eci.snake
 
 ---
 
-# Actividades del laboratorio
+# 📚 Actividades del laboratorio
 
-## Parte I — (Calentamiento) `wait/notify` en un programa multi-hilo
+## 🔥 Parte I — (Calentamiento) `wait/notify` en un programa multi-hilo
 
 1. Toma el programa [**PrimeFinder**](https://github.com/ARSW-ECI/wait-notify-excercise).
 2. Modifícalo para que **cada _t_ milisegundos**:
@@ -69,7 +69,7 @@ co.eci.snake
 
 ---
 
-## Parte II — SnakeRace concurrente (núcleo del laboratorio)
+## 🎯 Parte II — SnakeRace concurrente (núcleo del laboratorio)
 
 ### 1) Análisis de concurrencia
 
@@ -123,7 +123,7 @@ Este se probo ejecutando el juego con -Dsnakes=40 y turbo activo, observando est
 
 ---
 
-## Entregables
+## 📦 Entregables
 
 1. **Código fuente** funcionando en **Java 21**.
 2. Todo de manera clara en **`**el reporte de laboratorio**`** con:
@@ -135,7 +135,7 @@ Este se probo ejecutando el juego con -Dsnakes=40 y turbo activo, observando est
 
 ---
 
-## Criterios de evaluación (10)
+## 📊 Criterios de evaluación (10)
 
 - (3) **Concurrencia correcta**: sin data races; sincronización bien localizada.
 - (2) **Pausa/Reanudar**: consistencia visual y de estado.
@@ -145,7 +145,7 @@ Este se probo ejecutando el juego con -Dsnakes=40 y turbo activo, observando est
 
 ---
 
-## Tips y configuración útil
+## 💡 Tips y configuración útil
 
 - **Número de serpientes**: `-Dsnakes=N` al ejecutar.
 - **Tamaño del tablero**: cambiar el constructor `new Board(width, height)`.
@@ -154,7 +154,50 @@ Este se probo ejecutando el juego con -Dsnakes=40 y turbo activo, observando est
 
 ---
 
-## Cómo correr pruebas
+## 🧪 Pruebas Unitarias
+
+El proyecto incluye un conjunto completo de pruebas unitarias que validan la funcionalidad y concurrencia del sistema.
+
+### ⚙️ Ejecutar todas las pruebas
+
+```bash
+mvn test
+```
+
+### 🎯 Ejecutar pruebas específicas
+
+```bash
+# Pruebas de una clase específica
+mvn test -Dtest=SnakeTest
+mvn test -Dtest=BoardTest
+mvn test -Dtest=GameStatsTest
+
+# Pruebas de concurrencia
+mvn test -Dtest=ConcurrencyIntegrationTest
+mvn test -Dtest=SnakeRunnerTest
+
+# Pruebas individuales
+mvn test -Dtest=SnakeTest#shouldCreateSnakeWithInitialPositionAndDirection
+```
+
+#### **Características de las Pruebas**
+
+- **Thread-Safety**: Todos los tests verifican comportamiento concurrente
+- **Robustez**: Manejan la aleatoriedad del sistema con rangos aceptables
+- **Integración**: Pruebas end-to-end del sistema completo
+- **Determinismo**: Tests diseñados para ser consistentes y reproducibles
+
+#### **Validaciones Clave**
+
+- ✅ **Condiciones de carrera**: Detectadas y prevenidas
+- ✅ **Sincronización**: Regiones críticas protegidas correctamente  
+- ✅ **Estado consistente**: Snapshots sin tearing
+- ✅ **Rendimiento**: Sistema estable bajo alta carga
+- ✅ **Robustez**: Sin excepciones inesperadas en concurrencia
+
+---
+
+## 🏃‍♂️ Cómo correr pruebas
 
 ```bash
 mvn clean verify
@@ -164,7 +207,7 @@ Incluye compilación y ejecución de pruebas JUnit. Si tienes análisis estátic
 
 ---
 
-## Créditos
+## 👥 Créditos
 
 Este laboratorio es una adaptación modernizada del ejercicio **SnakeRace** de ARSW. El enunciado de actividades se conserva para mantener los objetivos pedagógicos del curso.
 
