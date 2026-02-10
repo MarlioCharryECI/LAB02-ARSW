@@ -73,10 +73,25 @@ co.eci.snake
 ### 1) Análisis de concurrencia
 
 - Explica **cómo** el código usa hilos para dar autonomía a cada serpiente.
+RTA/:El sistema implementa un modelo de concurrencia donde cada serpiente opera como una entidad completamente autónoma
+mediante su propio hilo de ejecución. En la clase SnakeApp, se utiliza un Executors.newVirtualThreadPerTaskExecutor() 
+para crear un pool de hilos virtuales modernos, los cuales son más ligeros que los hilos tradicionales. Cada serpiente
+se asocia con una instancia de SnakeRunner que implementa la interfaz Runnable, y este se ejecuta en su propio hilo
+mediante exec.submit(new SnakeRunner(s, board)). Dentro del método run() de SnakeRunner, cada serpiente mantiene su 
+propio bucle de control independiente que incluye lógica de toma de decisiones autónoma a través del método maybeTurn(),
+donde decide aleatoriamente si cambiar de dirección basándose en probabilidades que varían según si está en modo turbo
+o no. Además, cada serpiente gestiona su propia velocidad de movimiento mediante el mecanismo de turbo ticks, 
+permitiendo que algunas serpientes se muevan más rápido que otras sin afectar el rendimiento general del sistema. 
+Esta arquitectura permite que cada serpiente tenga su propio ciclo de vida, ritmo de decisión y comportamiento individual, 
+creando un ecosistema donde múltiples entidades pueden coexistir y competir de forma simultánea sin interferencias 
+directas en su lógica de control.
 - **Identifica** y documenta en **`el reporte de laboratorio`**:
   - Posibles **condiciones de carrera**.
+RTA/:existe una condición de carrera potencial en la clase Snake, ya que el método advance() modifica la estructura ArrayDeque que representa el cuerpo de la serpiente sin sincronización, mientras que métodos como snapshot() y head() pueden acceder a la misma estructura concurrentemente, por ejemplo desde el hilo de renderizado.
   - **Colecciones** o estructuras **no seguras** en contexto concurrente.
+RTA/:Las colecciones utilizadas en Board (HashSet y HashMap) no son thread-safe, pero su acceso está correctamente protegido mediante métodos sincronizados y copias defensivas. En contraste, la colección ArrayDeque usada en Snake no es thread-safe y no cuenta con mecanismos de sincronización, lo que la convierte en un punto crítico en un entorno concurrente.
   - Ocurrencias de **espera activa** (busy-wait) o de sincronización innecesaria.
+RTA/:No se encontraron casos de espera activa en el código. La sincronización aplicada en la clase Board es prudente y apropiada, ya que asegura la consistencia del estado compartido sin introducir complejidad innecesaria en la implementación.
 
 ### 2) Correcciones mínimas y regiones críticas
 
@@ -84,6 +99,7 @@ co.eci.snake
 - Protege **solo** las **regiones críticas estrictamente necesarias** (evita bloqueos amplios).
 - Justifica en **`el reporte de laboratorio`** cada cambio: cuál era el riesgo y cómo lo resuelves.
 
+RTA/:Al sincronizar los métodos head(), snapshot() y advance() de la clase Snake, se garantizó que el acceso al cuerpo de la serpiente sea exclusivo entre hilos, evitando que una operación de lectura ocurra mientras otra está modificando la estructura interna y eliminando así condiciones de carrera y estados inconsistentes. Adicionalmente, en el método step(Snake snake) de la clase Board se redujo el alcance de la sincronización, pasando de un bloqueo de grano grueso a proteger únicamente las secciones que acceden y modifican las colecciones compartidas del tablero. De esta forma, se mantuvo la atomicidad y consistencia del estado del juego, al tiempo que se evitó bloquear innecesariamente operaciones que no interactúan con datos compartidos, mejorando el comportamiento concurrente del sistema.
 ### 3) Control de ejecución seguro (UI)
 
 - Implementa la **UI** con **Iniciar / Pausar / Reanudar** (ya existe el botón _Action_ y el reloj `GameClock`).
