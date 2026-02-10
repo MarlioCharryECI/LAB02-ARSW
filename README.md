@@ -3,6 +3,7 @@
 **Escuela Colombiana de Ingeniería – Arquitecturas de Software**  
 Laboratorio de programación concurrente: condiciones de carrera, sincronización y colecciones seguras.
 
+Marlio Jose Charry Espitia
 ---
 
 ## Requisitos
@@ -116,6 +117,8 @@ RTA/:Se implementó el control de Pausar/Reanudar utilizando el botón Action y 
 - El juego **no debe romperse**: sin `ConcurrentModificationException`, sin lecturas inconsistentes, sin _deadlocks_.
 - Si habilitas **teleports** y **turbo**, verifica que las reglas no introduzcan carreras.
 
+RTA/:El sistema fue validado bajo carga ejecutando el juego con un número alto de serpientes (-Dsnakes=40+) y mayor velocidad. La sincronización centralizada mediante un único ReadWriteLock garantiza que no se presenten ConcurrentModificationException, lecturas inconsistentes ni deadlocks. Las reglas de teleports y turbo se aplican dentro de secciones críticas protegidas, asegurando que no se introduzcan condiciones de carrera incluso con múltiples serpientes ejecutándose en paralelo.
+Este se probo ejecutando el juego con -Dsnakes=40 y turbo activo, observando estabilidad, ausencia de excepciones y comportamiento consistente al pausar y reanudar.
 > Entregables detallados más abajo.
 
 ---
