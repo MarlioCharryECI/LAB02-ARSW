@@ -8,6 +8,9 @@ public final class Snake {
   private volatile Direction direction;
   private int maxLength = 5;
 
+  private volatile boolean alive = true;
+  private long deathOrder = -1;
+
   private Snake(Position start, Direction dir) {
     body.addFirst(start);
     this.direction = dir;
@@ -20,6 +23,7 @@ public final class Snake {
   public Direction direction() { return direction; }
 
   public void turn(Direction dir) {
+    if (!alive) return;
     if ((direction == Direction.UP && dir == Direction.DOWN) ||
         (direction == Direction.DOWN && dir == Direction.UP) ||
         (direction == Direction.LEFT && dir == Direction.RIGHT) ||
@@ -34,8 +38,27 @@ public final class Snake {
   public synchronized Deque<Position> snapshot() { return new ArrayDeque<>(body); }
 
   public synchronized void advance(Position newHead, boolean grow) {
+    if (!alive) return;
+
     body.addFirst(newHead);
     if (grow) maxLength++;
     while (body.size() > maxLength) body.removeLast();
+  }
+
+  public boolean isAlive() {
+    return alive;
+  }
+
+  public synchronized void markDead(long order) {
+    this.alive = false;
+    this.deathOrder = order;
+  }
+
+  public long deathOrder() {
+    return deathOrder;
+  }
+
+  public synchronized int length() {
+    return body.size();
   }
 }

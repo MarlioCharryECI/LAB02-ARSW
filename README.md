@@ -107,6 +107,8 @@ RTA/:Al sincronizar los métodos head(), snapshot() y advance() de la clase Snak
   - La **serpiente viva más larga**.
   - La **peor serpiente** (la que **primero murió**).
 - Considera que la suspensión **no es instantánea**; coordina para que el estado mostrado no quede “a medias”.
+- 
+RTA/:Se implementó el control de Pausar/Reanudar utilizando el botón Action y el GameClock. Al pausar, el sistema adquiere el writeLock del juego antes de construir el GameSnapshot, garantizando que ninguna serpiente esté avanzando en paralelo y evitando estados inconsistentes (tearing). De esta forma, el overlay muestra de manera consistente tanto la serpiente viva más larga como la peor serpiente (la que murió primero), aun considerando que la suspensión de los hilos no es instantánea.
 
 ### 4) Robustez bajo carga
 
